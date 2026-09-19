@@ -25,7 +25,7 @@ public class Box {
     @Column(name = "place_code", length = 6)
     private String placeCode;
 
-    @OneToMany(mappedBy = "box", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "box")
     private List<Piece> pieces;
 
     public Box(Integer index, String name, String placeCode) {

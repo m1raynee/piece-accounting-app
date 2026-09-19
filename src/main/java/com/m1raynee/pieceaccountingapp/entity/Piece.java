@@ -26,14 +26,14 @@ public class Piece {
     @Column(name = "alt_name")
     private String altName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "box_id")
     private Box box;
 
     @Column(name = "cell_hint")
     private String cellHint;
 
-    @OneToMany(mappedBy = "piece", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "piece")
     private List<Loan> loans;
 
     @Transient

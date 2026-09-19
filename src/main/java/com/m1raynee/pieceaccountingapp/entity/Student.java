@@ -21,10 +21,10 @@ public class Student {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "requester", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "requester")
     private List<Loan> requestedLoans;
 
-    @OneToMany(mappedBy = "performer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "performer")
     private List<Loan> performedLoans;
 
     public Student(String name) {
