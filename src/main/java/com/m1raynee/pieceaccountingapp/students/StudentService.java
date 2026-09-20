@@ -1,13 +1,30 @@
 package com.m1raynee.pieceaccountingapp.students;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
-public interface StudentService {
-    List<StudentEntity> findAll();
-    List<StudentEntity> findAllWithActiveLoans();
-    Optional<StudentEntity> findById(Long id);
-    StudentEntity save(StudentEntity piece);
-    void deleteById(Long id);
-    List<StudentEntity> findByNameContaining(String name);
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class StudentService {
+    private final StudentRepository repository;
+    // private final StudentMapper mapper;
+
+    public StudentService(StudentRepository repository) {
+        this.repository = repository;
+        // this.mapper = mapper;
+    }
+
+    public Page<StudentResponseDto> findAll(String name, Pageable pageable) {
+        return repository.findByName(name, pageable);
+    }
+
+    public StudentResponseDto findById(Long id) {
+
+        var entity = repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Couldn't find student with id: " + id));
+
+        return new StudentResponseDto(entity.getId(), entity.getName());
+    }
 }
