@@ -19,6 +19,6 @@ public class PieceSpecifications {
     public static Specification<PieceEntity> hasBoxId(Long boxId) {
         return (root, query, cb) -> (boxId == null)
                 ? null
-                : cb.equal(root.get("boxId"), boxId);
+                : cb.equal(root.get("box").get("id"), boxId);
     }
 }
