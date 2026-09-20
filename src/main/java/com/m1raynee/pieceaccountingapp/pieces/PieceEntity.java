@@ -1,6 +1,11 @@
-package com.m1raynee.pieceaccountingapp.entity;
+package com.m1raynee.pieceaccountingapp.pieces;
 
 import java.util.List;
+
+import com.m1raynee.pieceaccountingapp.boxes.BoxEntity;
+import com.m1raynee.pieceaccountingapp.loans.LoanEntity;
+import com.m1raynee.pieceaccountingapp.loans.StockMovementEntity;
+
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,11 +13,12 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
+@Table(name = "pieces")
 @Data
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = { "loans" })
-@ToString(exclude = { "loans" })
-public class Piece {
+@EqualsAndHashCode(exclude = { "stockMovements" })
+@ToString(exclude = { "stockMovements" })
+public class PieceEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,23 +34,15 @@ public class Piece {
 
     @ManyToOne()
     @JoinColumn(name = "box_id")
-    private Box box;
+    private BoxEntity box;
 
     @Column(name = "cell_hint")
     private String cellHint;
 
     @OneToMany(mappedBy = "piece")
-    private List<Loan> loans;
+    private List<StockMovementEntity> stockMovements;
 
-    @Transient
-    private List<Loan> trLoans;
-
-    @Transient
-    private Long positiveAmount;
-    @Transient
-    private Long negativeAmount;
-
-    public Piece(String article, String name, String altName, Box box) {
+    public PieceEntity(String article, String name, String altName, BoxEntity box) {
         this.article = article;
         this.name = name;
         this.altName = altName;
@@ -53,10 +51,6 @@ public class Piece {
 
     public String getTagId() {
         return "(PCE-%d)".formatted(id);
-    }
-
-    public Long getCalculatedAmount() {
-        return positiveAmount - negativeAmount;
     }
 
 }
