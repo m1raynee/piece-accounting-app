@@ -53,10 +53,9 @@ public class PieceService {
             return mapper.toDomain(repository.findOrThrow(id));
       }
 
-      public PieceResponseDto create(PieceCreateDto dto) {
+      public PieceResponseDto create(Long boxId, PieceCreateDto dto) {
             var entity = mapper.toEntity(dto);
-            entity.setBox(boxRepository.findOrThrow(dto.boxId()));
-
+            entity.setBox(boxRepository.findOrThrow(boxId));
             return mapper.toDomain(repository.save(entity));
       }
 

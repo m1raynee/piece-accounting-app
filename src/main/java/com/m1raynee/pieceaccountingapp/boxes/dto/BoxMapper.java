@@ -1,8 +1,10 @@
-package com.m1raynee.pieceaccountingapp.boxes;
+package com.m1raynee.pieceaccountingapp.boxes.dto;
 
-/**
- * BoxMapper
- */
+import org.springframework.stereotype.Component;
+
+import com.m1raynee.pieceaccountingapp.boxes.BoxEntity;
+
+@Component
 public class BoxMapper {
 
     public BoxResponseDto toDomain(BoxEntity entity) {

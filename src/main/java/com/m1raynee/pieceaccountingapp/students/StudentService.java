@@ -19,9 +19,12 @@ public class StudentService {
     }
 
     public StudentResponseDto findById(Long id) {
-
         var entity = repository.findOrThrow(id);
+        return new StudentResponseDto(entity.getId(), entity.getName());
+    }
 
+    public StudentResponseDto createStudent(String name) {
+        var entity = repository.save(new StudentEntity(name));
         return new StudentResponseDto(entity.getId(), entity.getName());
     }
 }

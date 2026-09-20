@@ -35,7 +35,7 @@ public class StudentController {
 
     @PostMapping
     public StudentResponseDto createStudent(@RequestBody String name) {
-        return new StudentResponseDto(1L, name);
+        return studentService.createStudent(name);
     }
 
 }
