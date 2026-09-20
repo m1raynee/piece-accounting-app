@@ -3,7 +3,6 @@ package com.m1raynee.pieceaccountingapp.pieces;
 import java.util.List;
 
 import com.m1raynee.pieceaccountingapp.boxes.BoxEntity;
-import com.m1raynee.pieceaccountingapp.loans.LoanEntity;
 import com.m1raynee.pieceaccountingapp.loans.StockMovementEntity;
 
 import jakarta.persistence.*;

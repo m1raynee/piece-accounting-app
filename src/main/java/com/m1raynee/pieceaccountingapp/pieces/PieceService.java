@@ -7,7 +7,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import com.m1raynee.pieceaccountingapp.boxes.BoxEntity;
 import com.m1raynee.pieceaccountingapp.boxes.BoxRepository;
 import com.m1raynee.pieceaccountingapp.pieces.dto.PieceCreateDto;
 import com.m1raynee.pieceaccountingapp.pieces.dto.PieceMapper;
