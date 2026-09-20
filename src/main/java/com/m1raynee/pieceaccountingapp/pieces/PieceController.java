@@ -2,7 +2,6 @@ package com.m1raynee.pieceaccountingapp.pieces;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.m1raynee.pieceaccountingapp.pieces.dto.PieceCreateDto;
@@ -25,35 +24,34 @@ public class PieceController {
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<PieceResponseDto>> getAllPieces(
+    public PageResponse<PieceResponseDto> getAllPieces(
             @RequestParam(required = false) String name,
             @RequestParam(name = "alt_name", required = false) String altName,
             @RequestParam(name = "box_id", required = false) Long boxId,
             @PageableDefault(page = 0, size = 20, sort = "name") Pageable pageable) {
-        return ResponseEntity.ok(
-                PageResponse.from(pieceService.findAll(
-                        name,
-                        altName,
-                        boxId,
-                        pageable)));
+        return PageResponse.from(pieceService.findAll(
+                name,
+                altName,
+                boxId,
+                pageable));
     }
 
     @PostMapping
-    public ResponseEntity<PieceResponseDto> postPiece(
+    public PieceResponseDto postPiece(
             @Valid @RequestBody PieceCreateDto dto) {
-        return ResponseEntity.ok(pieceService.create(dto));
+        return pieceService.create(dto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PieceResponseDto> updatePiece(
+    public PieceResponseDto updatePiece(
             @PathVariable Long id,
             @Valid @RequestBody PieceUpdateDto dto) {
-        return ResponseEntity.ok(pieceService.update(id, dto));
+        return pieceService.update(id, dto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PieceResponseDto> getPieceById(@PathVariable() Long id) {
-        return ResponseEntity.ok(pieceService.findById(id));
+    public PieceResponseDto getPieceById(@PathVariable() Long id) {
+        return pieceService.findById(id);
     }
 
 }

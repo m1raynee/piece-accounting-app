@@ -1,7 +1,6 @@
 package com.m1raynee.pieceaccountingapp.pieces;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.m1raynee.pieceaccountingapp.repository.BaseRepository;
 
-public interface PieceRepository extends JpaRepository<PieceEntity, Long>, JpaSpecificationExecutor<PieceEntity> {
+public interface PieceRepository extends BaseRepository<PieceEntity, Long> {
 }

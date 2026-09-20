@@ -2,7 +2,6 @@ package com.m1raynee.pieceaccountingapp.students;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,16 +22,15 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<StudentResponseDto>> getAllStudents(
+    public PageResponse<StudentResponseDto> getAllStudents(
             @RequestParam String name,
             @PageableDefault Pageable pageable) {
-        return ResponseEntity.ok(
-                PageResponse.from(studentService.findAll(name, pageable)));
+        return PageResponse.from(studentService.findAll(name, pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable Long id) {
-        return ResponseEntity.ok(studentService.findById(id));
+    public StudentResponseDto getStudentById(@PathVariable Long id) {
+        return studentService.findById(id);
     }
 
     @PostMapping

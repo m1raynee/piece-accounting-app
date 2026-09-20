@@ -1,7 +1,5 @@
 package com.m1raynee.pieceaccountingapp.students;
 
-import java.util.NoSuchElementException;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,8 +20,7 @@ public class StudentService {
 
     public StudentResponseDto findById(Long id) {
 
-        var entity = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Couldn't find student with id: " + id));
+        var entity = repository.findOrThrow(id);
 
         return new StudentResponseDto(entity.getId(), entity.getName());
     }

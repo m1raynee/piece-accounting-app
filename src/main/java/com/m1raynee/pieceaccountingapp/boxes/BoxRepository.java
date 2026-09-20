@@ -1,7 +1,7 @@
 package com.m1raynee.pieceaccountingapp.boxes;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.m1raynee.pieceaccountingapp.repository.BaseRepository;
 
-public interface BoxRepository extends JpaRepository<BoxEntity, Long> {
+public interface BoxRepository extends BaseRepository<BoxEntity, Long> {
 
 }

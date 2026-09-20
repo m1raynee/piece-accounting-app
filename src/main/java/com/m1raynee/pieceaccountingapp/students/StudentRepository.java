@@ -2,8 +2,8 @@ package com.m1raynee.pieceaccountingapp.students;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.m1raynee.pieceaccountingapp.repository.BaseRepository;
 
-public interface StudentRepository extends JpaRepository<StudentEntity, Long> {
+public interface StudentRepository extends BaseRepository<StudentEntity, Long> {
     Page<StudentResponseDto> findByName(String name, Pageable pageable);
 }

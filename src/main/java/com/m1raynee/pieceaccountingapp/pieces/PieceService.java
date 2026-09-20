@@ -1,12 +1,12 @@
 package com.m1raynee.pieceaccountingapp.pieces;
 
-import java.util.NoSuchElementException;
-
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.m1raynee.pieceaccountingapp.boxes.BoxEntity;
 import com.m1raynee.pieceaccountingapp.boxes.BoxRepository;
 import com.m1raynee.pieceaccountingapp.pieces.dto.PieceCreateDto;
 import com.m1raynee.pieceaccountingapp.pieces.dto.PieceMapper;
@@ -30,53 +30,43 @@ public class PieceService {
                   String altName,
                   Long boxId,
                   Pageable pageable) {
-            var spec = Specification
-                        .where(PieceSpecifications.hasName(name))
-                        .and(PieceSpecifications.hasAltName(altName))
-                        .and(PieceSpecifications.hasBoxId(boxId));
 
-            return repository.findAll(spec, pageable)
+            var probe = new PieceEntity();
+            probe.setName(name);
+            probe.setAltName(altName);
+
+            var box = new BoxEntity();
+            box.setId(boxId);
+            probe.setBox(box);
+
+            var matcher = ExampleMatcher.matching()
+                        .withIgnoreCase()
+                        .withIgnoreNullValues()
+                        .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+            return repository.findAll(
+                        Example.of(probe, matcher), pageable)
                         .map(mapper::toDomain);
       }
 
-      // PieceEntity save(PieceEntity piece);
-      // void deleteById(Long id);
-
       public PieceResponseDto findById(Long id) {
-            var entity = repository.findById(id)
-                        .orElseThrow(
-                                    () -> new NoSuchElementException(
-                                                "Couldn't find piece with id: " + id));
-
-            return mapper.toDomain(entity);
+            return mapper.toDomain(repository.findOrThrow(id));
       }
 
       public PieceResponseDto create(PieceCreateDto dto) {
-            var box = boxRepository.findById(dto.boxId())
-                        .orElseThrow(
-                                    () -> new NoSuchElementException(
-                                                "Couldn't find box with id: " + dto.boxId()));
-
             var entity = mapper.toEntity(dto);
-            entity.setBox(box);
+            entity.setBox(boxRepository.findOrThrow(dto.boxId()));
 
             return mapper.toDomain(repository.save(entity));
       }
 
       public PieceResponseDto update(Long id, PieceUpdateDto dto) {
-            var entity = repository.findById(id)
-                        .orElseThrow(
-                                    () -> new NoSuchElementException(
-                                                "Couldn't find piece with id: " + id));
+            var entity = repository.findOrThrow(id);
 
             var box = dto.boxId() == null ? entity.getBox()
-                        : boxRepository.findById(dto.boxId())
-                                    .orElseThrow(
-                                                () -> new NoSuchElementException(
-                                                            "Couldn't find box with id: " + dto.boxId()));
+                        : boxRepository.findOrThrow(dto.boxId());
 
             mapper.updateEntity(entity, dto, box);
             return mapper.toDomain(repository.save(entity));
       }
-
 }
